@@ -1,0 +1,68 @@
+# CodeRabbit configuration for SmartLib CSU
+# https://docs.coderabbit.ai/guides/configure-coderabbit
+
+language: "en-US"
+
+reviews:
+  # Automatically request a review on every pull request
+  request_changes_workflow: true
+  # Post a high-level walkthrough summary for each PR
+  high_level_summary: true
+  # Add a poem to the walkthrough (fun touch for the team)
+  poem: true
+  # Review each changed file and add inline comments
+  review_status: true
+  # Collapse existing outdated review comments to reduce noise
+  collapse_walkthrough: false
+  # Auto-review on every push to an open PR
+  auto_review:
+    enabled: true
+    # Also review draft PRs so issues are caught early
+    drafts: true
+    # Trigger a review on every new commit pushed to the PR
+    base_branches:
+      - "main"
+      - "master"
+      - "develop"
+
+  path_instructions:
+    # Backend (Node.js / Express)
+    - path: "backend/**"
+      instructions: |
+        Review this Node.js/Express backend code for:
+        - Proper error handling and meaningful HTTP status codes
+        - Input validation and sanitization to prevent injection attacks
+        - Secure use of environment variables (no hardcoded secrets)
+        - Consistent use of ES Modules (type: "module" is set in package.json)
+        - RESTful API design conventions
+        - Clear separation of concerns (routes, controllers, middleware)
+
+    # Frontend (React / Vite)
+    - path: "frontend/**"
+      instructions: |
+        Review this React/Vite frontend code for:
+        - React best practices (hooks rules, component design, prop types)
+        - Accessibility (ARIA attributes, semantic HTML, keyboard navigation)
+        - Responsive design considerations (mobile, tablet, desktop)
+        - Avoidance of direct DOM manipulation; prefer React state/refs
+        - Consistent component and file naming conventions
+        - No unused imports or variables (ESLint is configured)
+
+    # Dependency manifests
+    - path: "**/package.json"
+      instructions: |
+        Check for:
+        - Outdated or vulnerable dependencies
+        - Missing peer dependencies
+        - Consistency between dependencies and devDependencies placement
+
+  # Configure which tools CodeRabbit uses for static analysis
+  tools:
+    eslint:
+      enabled: true
+    github-checks:
+      enabled: true
+
+chat:
+  # Allow team members to interact with CodeRabbit in PR comments
+  auto_reply: true
