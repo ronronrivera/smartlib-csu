@@ -3,6 +3,7 @@ import { ENV } from "./lib/ENV.ts";
 import authRoutes from "./routes/auth.routes.ts";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { refreshToken } from "./controller/auth.controller.ts";
 
 const app = express()
 

@@ -157,7 +157,6 @@ export const loginController = async (req: Request, res: Response) => {
 
 export const logoutController = async (_: any, res: Response) => {
   try {
-    await supabase.auth.signOut();
 
     res.clearCookie("access_token");
     res.clearCookie("refresh_token");
@@ -169,4 +168,28 @@ export const logoutController = async (_: any, res: Response) => {
   }
 };
 
+export const refreshToken = async (req: Request, res: Response) =>{
+    try {
+       
+        const refresh_token = req.cookies?.refresh_token;
 
+        if(!refresh_token) return res.status(401).json({message: "Refresh token not found"});
+
+        const {data, error} = await supabase.auth.refreshSession({refresh_token});
+
+        if(error || !data) return res.status(401).json({message: error?.message ?? "Could not refresh token"});
+
+        const {access_token ,refresh_token: new_refresh_token, expires_in} = data.session;
+
+        setCookies(res, access_token, new_refresh_token, expires_in);
+        
+        res.status(200).json({
+            message: "Session refresh",
+        })
+
+
+    } catch (error) {
+       console.log("Error in refreshToken controller: ", error);
+        res.status(500).json({message: "Internal server error"});
+    }
+}

@@ -1,4 +1,5 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import Layout from "../components/Layout";
 import ProtectedRoute from "../components/ProtectedRoute";
 import { ROLES } from "../constants/roles";

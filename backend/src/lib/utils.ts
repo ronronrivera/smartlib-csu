@@ -3,8 +3,8 @@ import type { Response } from "express"
 
 export const setCookies = (res: Response, access_token: String | undefined, refresh_token: String | undefined, expires_in: number | undefined): void =>{
    
-    if(!expires_in){
-        console.log('expires_in is undefined');
+    if(!expires_in || !access_token || !refresh_token){
+        console.log('expires_in or access_token or refresh_token is undefined');
         return;
     }
 
