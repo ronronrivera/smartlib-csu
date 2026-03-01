@@ -146,8 +146,7 @@ export const loginController = async (req, res) => {
     if (profileError || !profileData) {
       console.error("Profile lookup error:", profileError);
       return res.status(404).json({ 
-        message: "Student profile not found. Your account may be incomplete. Please contact support or try signing up again with a different email.",
-        userId: userId // Include userId for debugging
+        message: "Invalid Credentials",
       });
     }
 

@@ -10,7 +10,6 @@ import {
 } from "../../services/bookService";
 import { exportToCSV } from "../../services/exportService";
 import { formatDateTime, formatDateTimeFull } from "../../utils/dateUtils";
-import { getBorrowHistoryExport } from "../../data/exportBorrowersHistory";
 import { showError, showSuccess } from "../../utils/notification";
 import { getUserProfileByEmail } from "../../services/authService";
 
@@ -89,7 +88,14 @@ const BorrowerTracking = () => {
 
   const handleHistoryExport = () => {
     if (history.length === 0) return;
-    exportToCSV(getBorrowHistoryExport(history.slice(0, 6)), "borrow-history.csv");
+    const historyData = history.map((entry) => ({
+      "Book ID": entry.bookId || "-",
+      "Book Title": entry.bookTitle || "-",
+      "Borrower Email": entry.borrowerEmail || "-",
+      "Action": formatHistoryAction(entry.action),
+      "Timestamp": formatDateTimeFull(entry.timestamp),
+    }));
+    exportToCSV(historyData, "borrow-history.csv");
   };
 
   return (

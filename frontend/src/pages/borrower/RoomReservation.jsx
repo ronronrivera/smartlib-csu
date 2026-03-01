@@ -8,8 +8,8 @@ import {
   isLunchBreakHour
 } from "../../services/reservationService";
 import { ROOMS } from "../../config/rooms";
-import { useAuth } from "../../context/AuthContext";
 import { showError, showInfo, showSuccess } from "../../utils/notification";
+import { useStore } from "../../store/useAuthStore";
 
 const reservationHourOptions = getReservationHourOptions();
 
@@ -17,7 +17,7 @@ const RoomReservation = () => {
   const [room, setRoom] = useState("");
   const [reservationHour, setReservationHour] = useState("");
   const [notes, setNotes] = useState("");
-  const { user } = useAuth();
+  const { user } = useStore();
   // Recompute unavailable slots whenever selected room changes.
   const unavailableHours = useMemo(
     () => getUnavailableReservationHours(room),

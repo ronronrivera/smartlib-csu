@@ -10,14 +10,14 @@ import {
   isReservationTimePassed,
   requestReservationCancellation
 } from "../../services/reservationService";
-import { useAuth } from "../../context/AuthContext";
 import { formatDateTime } from "../../utils/dateUtils";
 import { showError, showInfo, showSuccess } from "../../utils/notification";
 import { RESERVATION_STATUS } from "../../constants/status";
 import { formatActivityAction } from "../../utils/activityUtils";
+import { useStore } from "../../store/useAuthStore";
 
 const ActivityLog = () => {
-  const { user } = useAuth();
+  const { user } = useStore();
   // Use normalized current-user email to scope visible activity records.
   const userEmail = user?.email || "";
 

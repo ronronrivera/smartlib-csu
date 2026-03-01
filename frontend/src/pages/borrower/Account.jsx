@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { PenSquare } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
 import { getUserProfileByEmail } from "../../services/authService";
 import { showError, showSuccess } from "../../utils/notification";
+import { useStore } from "../../store/useAuthStore";
 
 const Account = () => {
-  const { user, updateBorrowerAccountUser } = useAuth();
+  const { user } = useStore();
   const [activeModal, setActiveModal] = useState(null);
   const [emailDraft, setEmailDraft] = useState("");
   const [contactDraft, setContactDraft] = useState("");

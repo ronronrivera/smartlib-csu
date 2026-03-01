@@ -10,12 +10,12 @@ import {
   cancelBorrowRequest
 } from "../../services/bookService";
 import ThesisPermissionModal from "../../components/ThesisPermissionModal";
-import { useAuth } from "../../context/AuthContext";
 import { showError, showInfo, showSuccess } from "../../utils/notification";
+import { useStore } from "../../store/useAuthStore";
 
 const BookDetails = () => {
   const { id } = useParams();
-  const { user } = useAuth();
+  const { user } = useStore();
   const [book, setBook] = useState(getBookById(id));
   const [isPermissionModalOpen, setIsPermissionModalOpen] = useState(false);
   const [permissionCode, setPermissionCode] = useState("");

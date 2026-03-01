@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { getBorrowerSignups } from "../../services/authService";
 import { exportToCSV } from "../../services/exportService";
-import { getBorrowerSignupsExport } from "../../data/exportBorrowerSignups";
 import { formatBorrowerFullName } from "../../utils/name";
 
 const truncateText = (value, maxLength) => {
@@ -20,7 +19,14 @@ const StaffAndBorrowerList = () => {
 	const handleExport = () => {
 		if (borrowers.length === 0) return;
 		// Export all borrower signup rows in one CSV file.
-		exportToCSV(getBorrowerSignupsExport(borrowers), "borrower-signups.csv");
+		const borrowerData = borrowers.map((borrower) => ({
+			"ID": borrower.id || "-",
+			"Name": formatBorrowerFullName(borrower) || "-",
+			"Email": borrower.email || "-",
+			"Phone": borrower.phone || "-",
+			"Status": borrower.status || "-",
+		}));
+		exportToCSV(borrowerData, "borrower-signups.csv");
 	};
 
 	const openBorrowerDetails = (borrower) => {

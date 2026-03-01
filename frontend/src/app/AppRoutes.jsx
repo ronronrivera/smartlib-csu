@@ -11,7 +11,6 @@ import BookDetails from "../pages/borrower/BookDetails";
 import BrowseBooks from "../pages/borrower/BrowseBooks";
 import RoomReservation from "../pages/borrower/RoomReservation";
 import NotFound from "../pages/NotFound";
-import Reservation from "../pages/staff/Reservation";
 import BorrowerTracking from "../pages/staff/BorrowerTracking";
 import Dashboard from "../pages/staff/Dashboard";
 import StaffAndBorrowerList from "../pages/staff/StaffAndBorrowerList";
@@ -32,7 +31,7 @@ const AppRoutes = () => {
     if(isCheckingAuth) return <PageLoader/>  
 
 	return (
-		<BrowserRouter>
+<BrowserRouter>
 			<Routes>
 				{/* Default entry redirects to login. */}
 				<Route path="/" element={<Navigate to="/login" replace />} />
@@ -109,22 +108,11 @@ const AppRoutes = () => {
 				/>
 
 				<Route
-					path="/staff/approvals"
-					element={
-						<ProtectedRoute role={ROLES.STAFF}>
-							<Layout>
-								<Reservation />
-							</Layout>
-						</ProtectedRoute>
-					}
-				/>
-
-				<Route
 					path="/staff/tracking"
 					element={
 						<ProtectedRoute role={ROLES.STAFF}>
 							<Layout>
-								<BorrowerTracking />
+								<Reservation />
 							</Layout>
 						</ProtectedRoute>
 					}
@@ -136,6 +124,17 @@ const AppRoutes = () => {
 						<ProtectedRoute role={ROLES.STAFF}>
 							<Layout>
 								<StaffAndBorrowerList />
+							</Layout>
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					path="/staff/books"
+					element={
+						<ProtectedRoute role={ROLES.STAFF}>
+							<Layout>
+								<BookManagement />
 							</Layout>
 						</ProtectedRoute>
 					}

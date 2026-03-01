@@ -110,3 +110,44 @@ export const changeEmail = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const changeNumber = async (req, res) =>{
+    try {
+        
+        const access_token = req.cookies?.access_token;
+
+        if(!access_token) return res.status(401).json({message: "unauthorized"});
+
+        const userId = req.user?.id;
+        if(!userId) return res.status(401).json({message: "Unauthorized"});
+
+        const {newNumber} = req.body;
+
+        const normalized = String(newNumber).trim();
+        if (normalized.length < 11 || normalized.length > 11) {
+            return res.status(400).json({ message: "Invalid contact number length" });
+        }
+
+        const supabaseUser = supabaseForRequest(access_token);
+
+        const {data, error} = await supabaseUser
+            .from("student_profiles")
+            .update({contact_number: normalized})
+            .eq("user_id", userId)
+            .select("user_id, contact_number")
+            .maybeSingle();
+
+
+        if (error) return res.status(400).json({ message: error.message });
+        if (!data) return res.status(404).json({ message: "Profile not found" });
+
+        return res.status(200).json({
+            message: "Contact number updated successfully",
+            profile: data
+        })
+
+    } catch (error) {
+        console.log("Error in changeNumber controller: ", error );
+        res.status(500).json({message: "Internal server error"});
+    }
+}

@@ -13,7 +13,6 @@ import { RESERVATION_STATUS } from "../../constants/status";
 import { formatDateTime } from "../../utils/dateUtils";
 import { showError, showSuccess } from "../../utils/notification";
 import { exportToCSV } from "../../services/exportService";
-import { getReservationHistoryExport } from "../../data/exportReservations";
 import { getUserProfileByEmail } from "../../services/authService";
 
 const Reservation = () => {
@@ -110,8 +109,15 @@ const Reservation = () => {
   const handleHistoryExport = () => {
     // Export intentionally includes only the latest six rows shown in the UI.
     if (history.length === 0) return;
+    const historyData = history.slice(0, 6).map((entry) => ({
+      "Room": entry.room || "-",
+      "Requester": entry.requestedBy || "-",
+      "Reservation Hour": formatReservationHour(entry.reservationHour),
+      "Date": formatDateTime(entry.reservationDate),
+      "Status": entry.status || "-",
+    }));
     exportToCSV(
-      getReservationHistoryExport(history.slice(0, 6)),
+      historyData,
       "reservation-history-latest.csv"
     );
   };

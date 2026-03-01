@@ -80,7 +80,7 @@ const Signup = () => {
         firstName,
         lastName,
         null, // suffix - optional
-        courseAndYear,
+        courseAndYear,        
         contactInfo,
         currentAddress
       );

@@ -90,7 +90,7 @@ export const useStore = create((set, get) => ({
             });
 
             showSuccess("Account created successfully");
-            set({user: res.data.user})
+            set({user: res.data})
 
             return true;
 
@@ -111,7 +111,7 @@ export const useStore = create((set, get) => ({
         try{
             const res = await axiosInstance.post("/auth/login", { email, password });
             
-            set({ user: res.data.user});
+            set({ user: res.data});
             showSuccess("Login successful");
             return true;
         }
@@ -139,11 +139,15 @@ export const useStore = create((set, get) => ({
     },
 
     logout: async () => {
+        set({isLoading: true})
         try {
             await axiosInstance.post("/auth/logout");
             set({ user: null});
         } catch (error) {
             showError(error.response?.data?.message || "An error occurred during logout");
+        }
+        finally{
+            set({isLoading: false});
         }
     },
 

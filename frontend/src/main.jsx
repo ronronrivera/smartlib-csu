@@ -9,13 +9,11 @@ import appFavicon from "./assets/Caraga_State_University.png";
 
 const faviconLink = document.querySelector("link[rel='icon']");
 if (faviconLink) {
-  faviconLink.setAttribute("href", appFavicon);
+    faviconLink.setAttribute("href", appFavicon);
 }
 
 // Mount the React app into the root node declared in index.html.
 ReactDOM.createRoot(document.getElementById("root")).render(
-  // StrictMode helps surface side-effect and lifecycle issues in development.
-    <AuthProvider>
-        <App />
-    </AuthProvider>
+    // StrictMode helps surface side-effect and lifecycle issues in development.
+    <App />
 );

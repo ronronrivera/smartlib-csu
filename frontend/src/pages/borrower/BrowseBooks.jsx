@@ -13,11 +13,11 @@ import {
   getBorrowRequestsByBorrower,
   cancelBorrowRequest
 } from "../../services/bookService";
-import { useAuth } from "../../context/AuthContext";
 import { showError, showInfo, showSuccess } from "../../utils/notification";
+import { useStore } from "../../store/useAuthStore";
 
 const BrowseBooks = () => {
-  const { user } = useAuth();
+  const { user } = useStore();
   const [books, setBooks] = useState(getBooks());
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);

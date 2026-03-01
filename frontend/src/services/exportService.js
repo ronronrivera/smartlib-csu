@@ -1,39 +1,45 @@
-// Purpose: Generic CSV export utility for browser download actions.
+// Purpose: CSV export utility for generating downloadable data files.
 // Parts: value escaping helper, CSV assembly, blob download and cleanup.
-const escapeValue = (value) => {
-  if (value === null || value === undefined) return "";
-  // Escape inner quotes so CSV readers parse values correctly.
-  const stringValue = String(value);
-  const escaped = stringValue.replace(/"/g, '""');
-  return `"${escaped}"`;
+
+const escapeCSVValue = (value) => {
+  const str = String(value || "");
+  // Escape quotes and wrap in quotes if contains comma, quote, or newline
+  if (str.includes(",") || str.includes('"') || str.includes("\n")) {
+    return `"${str.replace(/"/g, '""')}"`;
+  }
+  return str;
 };
 
 export const exportToCSV = (data, filename) => {
-  // No-op when there is nothing to export.
-  if (!data || data.length === 0) return false;
-
-  // Use object keys of first row as CSV header order.
-  const headers = Object.keys(data[0]);
-  const rows = data.map((row) =>
-    headers.map((key) => escapeValue(row[key])).join(",")
-  );
-  const csvContent =
-    headers.map((h) => escapeValue(h)).join(",") +
-    "\n" +
-    rows.join("\n");
-  
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  // Trigger browser download via temporary anchor element.
-  const encodedUri = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  try {
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", filename);
-    document.body.appendChild(link);
-    link.click();
-  } finally {
-    document.body.removeChild(link);
-    URL.revokeObjectURL(encodedUri);
+  if (!data || data.length === 0) {
+    console.warn("No data to export");
+    return;
   }
-  return true;
+
+  // Get headers from first object
+  const headers = Object.keys(data[0]);
+  
+  // Create CSV content
+  const csvContent = [
+    headers.map(escapeCSVValue).join(","),
+    ...data.map((row) =>
+      headers.map((header) => escapeCSVValue(row[header])).join(",")
+    ),
+  ].join("\n");
+
+  // Create blob and download
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  
+  link.setAttribute("href", url);
+  link.setAttribute("download", filename);
+  link.style.visibility = "hidden";
+  
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  
+  // Clean up
+  URL.revokeObjectURL(url);
 };

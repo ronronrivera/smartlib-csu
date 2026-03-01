@@ -15,18 +15,20 @@ import {
 } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ROLES } from "../constants/roles";
-import { useAuth } from "../context/AuthContext";
+import { useStore } from "../store/useAuthStore";
 
 const Sidebar = () => {
-	const { user, logoutUser } = useAuth();
+    const {user, logout} = useStore(); 
 	const navigate = useNavigate();
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isMobileMoving, setIsMobileMoving] = useState(false);
-	const movementTimeoutRef = useRef(null);
-
+	const movementTimeoutRef = useRef(null); 
+    
 	const handleLogout = () => {
-		logoutUser();
+        
+        logout();
+
 		setIsMobileMenuOpen(false);
 		navigate("/login");
 	};
@@ -78,11 +80,12 @@ const Sidebar = () => {
 		{ to: "/borrower/activity", label: "Activity Log", icon: History },
 		{ to: "/borrower/account", label: "Account", icon: UserRound }
 	];
+	const userRole = user?.role || user?.profile?.role;
 	// Explicitly resolve known roles only; unknown/null role gets empty nav instead of wrong menu.
 	const links =
-		user?.role === ROLES.STAFF
+		userRole === ROLES.STAFF
 			? staffLinks
-			: user?.role === ROLES.BORROWER
+			: userRole === ROLES.BORROWER
 				? borrowerLinks
 				: [];
 

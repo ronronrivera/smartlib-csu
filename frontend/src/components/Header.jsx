@@ -1,18 +1,18 @@
 // Purpose: Top navigation bar with auth-aware user actions.
 // Parts: auth/user lookup, logout handler, nav/action rendering.
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { ROLES } from "../constants/roles";
 import caragaStateUniversityLogo from "../assets/Caraga_State_University.png";
+import { useStore } from "../store/useAuthStore";
 
 const Header = () => {
-  const { user } = useAuth();
+  const { user } = useStore();
 
   // Resolve brand destination from role safely; fallback protects null/unknown sessions.
   const brandTarget =
-    user?.role === ROLES.STAFF
+    user?.profile?.role === ROLES.STAFF
       ? "/staff/dashboard"
-      : user?.role === ROLES.BORROWER
+      : user?.profile?.role === ROLES.BORROWER
         ? "/borrower/browse"
         : "/login";
 
@@ -33,9 +33,9 @@ const Header = () => {
         {user ? (
           <div className="header__meta">
             {/* Defensive fallback values prevent "cannot read role of null" in edge hydration states. */}
-            <span className="pill header__role-pill">{user?.role || "-"}</span>
-            <span className="header__email">{user?.email || "-"}</span>
-            <span className="header__email-mobile">{`${user?.role || "-"} - ${user?.email || "-"}`}</span>
+            <span className="pill header__role-pill">{user?.profile?.role || "-"}</span>
+            <span className="header__email">{user?.user?.email || "-"}</span>
+            <span className="header__email-mobile">{`${user?.profile?.role || "-"} - ${user?.user?.email || "-"}`}</span>
           </div>
         ) : (
           <div className="header__actions">
