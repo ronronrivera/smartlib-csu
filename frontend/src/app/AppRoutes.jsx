@@ -19,6 +19,7 @@ import BookManagement from "../pages/staff/BookManagement";
 import { useStore } from "../store/useAuthStore";
 import { useEffect } from "react";
 import PageLoader from "../components/PageLoader";
+import { ROLES } from "../constants/roles";
 
 const AppRoutes = () => {
 
@@ -99,9 +100,9 @@ const AppRoutes = () => {
 				<Route
 					path="/staff/approvals"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute role={ROLES.STAFF}>
 							<Layout>
-								<Approvals />
+								<Reservation />
 							</Layout>
 						</ProtectedRoute>
 					}
@@ -110,7 +111,7 @@ const AppRoutes = () => {
 				<Route
 					path="/staff/tracking"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute role={ROLES.STAFF}>
 							<Layout>
 								<BorrowerTracking />
 							</Layout>
@@ -121,35 +122,13 @@ const AppRoutes = () => {
 				<Route
 					path="/staff/borrowers"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute role={ROLES.STAFF}>
 							<Layout>
 								<StaffAndBorrowerList />
 							</Layout>
 						</ProtectedRoute>
 					}
 				/>
-
-					<Route
-						path="/staff/tracking"
-						element={
-							<ProtectedRoute role={ROLES.STAFF}>
-								<Layout>
-									<BorrowerTracking />
-								</Layout>
-							</ProtectedRoute>
-						}
-					/>
-
-					<Route
-						path="/staff/borrowers"
-						element={
-							<ProtectedRoute role={ROLES.STAFF}>
-								<Layout>
-									<StaffAndBorrowerList />
-								</Layout>
-							</ProtectedRoute>
-						}
-					/>
 
 					<Route
 						path="/staff/books"
@@ -168,7 +147,6 @@ const AppRoutes = () => {
 				<footer className="app-copyright" aria-label="Copyright">
 					© {new Date().getFullYear()} SmartLib CSU. All rights reserved.
 				</footer>
-			</>
 		</BrowserRouter>
 	);
 };

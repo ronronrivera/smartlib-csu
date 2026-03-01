@@ -3,7 +3,7 @@
 import { Navigate } from "react-router-dom";
 import { useStore } from "../store/useAuthStore";
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, role }) => {
   const { user } = useStore();
 
   // Block anonymous users from protected pages.
