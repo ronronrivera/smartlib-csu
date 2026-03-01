@@ -1,6 +1,6 @@
 /* Purpose: Global design system and shared UI styles for the whole app.
   Parts: theme/base rules, layout containers, component states, responsive rules. */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -51,7 +51,7 @@
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: "Roboto", sans-serif;
   color: var(--ink);
   background: radial-gradient(circle at top, #f8fff9 0%, var(--bg) 55%, #e2efe7 100%);
   min-height: 100vh;
@@ -99,7 +99,7 @@ textarea {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  font-family: Merriweather, serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1.6rem;
   color: #ffffff;
 }
@@ -360,7 +360,7 @@ textarea {
 }
 
 h2 {
-  font-family: "Merriweather", serif;
+  font-family: "Roboto", sans-serif;
   font-size: 2rem;
 }
 
