@@ -1,8 +1,7 @@
 // Purpose: Signup page for creating borrower accounts.
 // Parts: form model, validation logic, submit handler, grouped form render.
-import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "../../store/useAuthStore";
 import { showError } from "../../utils/notification";
@@ -58,7 +57,7 @@ const Signup = () => {
       setError("");
       
       // Guard: all required borrower fields must be present.
-      if (!firstName || !lastName || !coursAndYear || !id || !contactInfo || !email || !currentAddress || !password || !confirmPassword) {
+      if (!firstName || !lastName || !courseAndYear || !id || !contactInfo || !email || !currentAddress || !password || !confirmPassword) {
         const errorMsg = "Please fill up all required fields";
         setError(errorMsg);
         showError(errorMsg);
@@ -81,7 +80,7 @@ const Signup = () => {
         firstName,
         lastName,
         null, // suffix - optional
-        coursAndYear,        
+        courseAndYear,
         contactInfo,
         currentAddress
       );
@@ -137,8 +136,8 @@ const Signup = () => {
         <input
           className="input"
           placeholder="BSCS-2nd Year"
-          value={coursAndYear}
-          onChange={(e) => setCoursAndYear(e.target.value)}
+          value={courseAndYear}
+          onChange={(e) => setCourseAndYear(e.target.value)}
           disabled={isLoading}
           required
         />
