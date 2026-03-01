@@ -85,6 +85,17 @@ const AppRoutes = () => {
 					}
 				/>
 
+				<Route
+					path="/borrower/account"
+					element={
+						<ProtectedRoute>
+							<Layout>
+								<Account />
+							</Layout>
+						</ProtectedRoute>
+					}
+				/>
+
 				{/* Staff-only routes guarded by role check. */}
 				<Route
 					path="/staff/dashboard"
