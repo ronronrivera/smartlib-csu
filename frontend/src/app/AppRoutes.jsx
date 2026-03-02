@@ -83,11 +83,22 @@ const AppRoutes = () => {
 					}
 				/>
 
+				<Route
+					path="/borrower/account"
+					element={
+						<ProtectedRoute>
+							<Layout>
+								<Account />
+							</Layout>
+						</ProtectedRoute>
+					}
+				/>
+
 				{/* Staff-only routes guarded by role check. */}
 				<Route
 					path="/staff/dashboard"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute role={ROLES.STAFF}>
 							<Layout>
 								<Dashboard />
 							</Layout>
@@ -98,9 +109,9 @@ const AppRoutes = () => {
 				<Route
 					path="/staff/tracking"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute role={ROLES.STAFF}>
 							<Layout>
-								<BorrowerTracking />
+								<Reservation />
 							</Layout>
 						</ProtectedRoute>
 					}
@@ -109,7 +120,7 @@ const AppRoutes = () => {
 				<Route
 					path="/staff/borrowers"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute role={ROLES.STAFF}>
 							<Layout>
 								<StaffAndBorrowerList />
 							</Layout>
@@ -120,7 +131,7 @@ const AppRoutes = () => {
 				<Route
 					path="/staff/books"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute role={ROLES.STAFF}>
 							<Layout>
 								<BookManagement />
 							</Layout>
@@ -128,12 +139,23 @@ const AppRoutes = () => {
 					}
 				/>
 
-				{/* Catch-all fallback for unknown URLs. */}
-				<Route path="*" element={<NotFound />} />
-			</Routes>
-			<footer className="app-copyright" aria-label="Copyright">
-				© {new Date().getFullYear()} SmartLib CSU. All rights reserved.
-			</footer>
+					<Route
+						path="/staff/books"
+						element={
+							<ProtectedRoute role={ROLES.STAFF}>
+								<Layout>
+									<BookManagement />
+								</Layout>
+							</ProtectedRoute>
+						}
+					/>
+
+					{/* Catch-all fallback for unknown URLs. */}
+					<Route path="*" element={<NotFound />} />
+				</Routes>
+				<footer className="app-copyright" aria-label="Copyright">
+					© {new Date().getFullYear()} SmartLib CSU. All rights reserved.
+				</footer>
 		</BrowserRouter>
 	);
 };

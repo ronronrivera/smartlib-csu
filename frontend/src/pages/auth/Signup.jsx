@@ -1,7 +1,7 @@
 // Purpose: Signup page for creating borrower accounts.
 // Parts: form model, validation logic, submit handler, grouped form render.
 import { Eye, EyeOff } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "../../store/useAuthStore";
 import { showError } from "../../utils/notification";
