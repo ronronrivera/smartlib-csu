@@ -180,7 +180,7 @@ const BorrowerTracking = () => {
                 <span>{`${entry.student_profiles?.first_name || ""} ${entry.student_profiles?.last_name || ""}`.trim() || "-"}</span>
                 <span>{entry.student_profiles?.id_number || "-"}</span>
                 <span>{entry.student_profiles?.program || "-"}</span>
-                <span>{entry.item_title || "-"}</span>
+                <span title={entry.item_title || "-"}>{entry.item_title || "-"}</span>
                 <span>{entry.status || "-"}</span>
                 <span>{formatDateTimeFull(entry.requested_at)}</span>
                 <button
@@ -219,7 +219,7 @@ const BorrowerTracking = () => {
               <div className="table__row" key={entry.requestId}>
                 <span>{entry.user}</span>
                 <span>{entry.studentId}</span>
-                <span>{entry.book}</span>
+                <span title={entry.book}>{entry.book}</span>
                 <span>{formatDateTimeFull(entry.time)}</span>
                 <span>{entry.status}</span>
                 <button
@@ -275,7 +275,7 @@ const BorrowerTracking = () => {
               <div className="table__row" key={`${entry.id}-${entry.action}-${entry.timestamp}`}>
                 <span>{`${entry.student_profiles?.first_name || ""} ${entry.student_profiles?.last_name || ""}`.trim() || "-"}</span>
                 <span>{entry.studentId || entry.student_profiles?.id_number || "-"}</span>
-                <span>{entry.item_title || "-"}</span>
+                <span title={entry.item_title || "-"}>{entry.item_title || "-"}</span>
                 <span>{formatActivityAction(entry.action)}</span>
                 <span>{formatDateTimeFull(entry.timestamp)}</span>
               </div>
