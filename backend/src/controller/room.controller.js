@@ -601,7 +601,7 @@ export const cancelReservationController = async (req, res) => {
 };
 
 /**
- * Get reservation history (staff only)
+ * Get reservation history (staff: all, borrowers: their own)
  * GET /api/room/reservations/history
  */
 export const getReservationHistoryController = async (req, res) => {
@@ -614,14 +614,12 @@ export const getReservationHistoryController = async (req, res) => {
 
         const supabase = supabaseForRequest(access_token);
 
-        // Check staff access
+        // Check if user is staff
         const staffAccess = await hasStaffAccess(supabase, userId, req.user);
-        if (!staffAccess.ok) {
-            return res.status(staffAccess.code || 403).json({ message: staffAccess.error });
-        }
+        const isStaff = staffAccess.ok;
 
         // Read from the append-only audit table instead of the mutable reservation row.
-        const { data: events, error } = await supabase
+        let query = supabase
             .from("reservation_events")
             .select(
                 `
@@ -636,8 +634,14 @@ export const getReservationHistoryController = async (req, res) => {
                 student_profiles(id_number, first_name, last_name, email, users_public:users_public(email))
                 ,student_room_reservations(room_number, time_start, time_end, purpose)
                 `
-            )
-            .order("occurred_at", { ascending: false });
+            );
+
+        // If borrower, filter to only their events
+        if (!isStaff) {
+            query = query.eq("student_user_id", userId);
+        }
+
+        const { data: events, error } = await query.order("occurred_at", { ascending: false });
 
         if (error) {
             return res.status(400).json({ message: error.message });
