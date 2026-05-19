@@ -12,6 +12,7 @@ import {
 import { RESERVATION_STATUS } from "../../constants/status";
 import { formatDateTimeFull } from "../../utils/dateUtils";
 import { expandReservationHistoryEntries, formatActivityAction } from "../../utils/activityUtils";
+import { formatStudentId } from "../../utils/name";
 import { showError, showSuccess } from "../../utils/notification";
 import { exportToCSV } from "../../services/exportService";
 import { useStore } from "../../store/useAuthStore";
@@ -80,7 +81,7 @@ const Reservation = () => {
 
   // Student ID is resolved from a memoized profile map to avoid repeated lookups.
   const getStudentIdByEmail = (email) =>
-    studentIdByEmail[String(email || "").trim().toLowerCase()] || "-";
+    formatStudentId(studentIdByEmail[String(email || "").trim().toLowerCase()] || "-");
 
   const refresh = async () => {
     // Keep reservations and history in sync after approve/close actions.
@@ -185,7 +186,7 @@ const Reservation = () => {
     const historyData = historyEvents.map((entry) => ({
       Room: entry.room || "-",
       Requester: entry.requestedBy || "-",
-      "Student ID": entry.studentId || "-",
+      "Student ID": formatStudentId(entry.studentId || "-"),
       "Reservation Hour": formatReservationHour(entry.reservationHour),
       Action: formatActivityAction(entry.action),
       Status: getReservationDisplayStatus(entry),
@@ -415,7 +416,7 @@ const Reservation = () => {
                   <td data-label="Room">{entry.room}</td>
                   <td data-label="Time Slot">{formatReservationHour(entry.reservationHour)}</td>
                   <td data-label="Email">{entry.requestedBy}</td>
-                  <td data-label="ID">{entry.studentId || getStudentIdByEmail(entry.requestedBy)}</td>
+                  <td data-label="ID">{formatStudentId(entry.studentId || getStudentIdByEmail(entry.requestedBy))}</td>
                   <td data-label="Action">{formatActivityAction(entry.action)}</td>
                   <td data-label="Status">{getReservationDisplayStatus(entry)}</td>
                   <td data-label="Time">{formatDateTimeFull(entry.timestamp)}</td>

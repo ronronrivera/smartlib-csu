@@ -13,6 +13,7 @@
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
+  z-index: 1;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -752,6 +753,40 @@
 .auth-card__switch a {
   color: var(--accent);
   font-weight: 600;
+}
+
+/* Styled inline clickable link for forgot-password */
+.auth-forgot-link {
+  all: unset;
+  color: var(--accent); /* dark green */
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+  text-decoration: underline;
+  display: inline-block;
+  transition: color 180ms ease, background 180ms ease, transform 180ms ease;
+  margin-left: 0.25rem;
+  padding: 0 0.35rem;
+  border-radius: 6px;
+  background: rgba(27, 94, 32, 0.06);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--accent);
+  position: relative;
+  z-index: 5;
+}
+
+.auth-forgot-link:hover,
+.auth-forgot-link:focus-visible {
+  color: #2e7d32;
+  background: rgba(27, 94, 32, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Small layout helper for forgot-link spacing */
+.auth-forgot-link {
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
 }
 
 .auth-card--signup {

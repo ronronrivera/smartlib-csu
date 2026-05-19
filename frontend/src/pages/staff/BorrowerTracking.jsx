@@ -6,6 +6,7 @@ import { formatDateTimeFull } from "../../utils/dateUtils";
 import { showError } from "../../utils/notification";
 import useItems from "../../store/useItemsStore";
 import { expandBorrowHistoryEntries, formatActivityAction } from "../../utils/activityUtils";
+import { formatStudentId } from "../../utils/name";
 import { useRequest } from "../../store/useRequestsStore";
 
 const BorrowerTracking = () => {
@@ -57,7 +58,7 @@ const BorrowerTracking = () => {
         return {
           requestId: entry.id,
           user: fullName || entry.student_profiles?.last_name || "-",
-          studentId: entry.student_profiles?.id_number || "-",
+          studentId: formatStudentId(entry.student_profiles?.id_number || "-"),
           book: entry.item_title || book?.title || "-",
           bookId: itemId || entry.id,
           time: entry.approved_at || entry.decision_at || entry.requested_at,
@@ -139,7 +140,7 @@ const BorrowerTracking = () => {
       "Book ID": entry.library_item_id || "-",
       "Book Title": entry.item_title || "-",
       "Borrower": `${entry.student_profiles?.first_name || ""} ${entry.student_profiles?.last_name || ""}`.trim() || "-",
-      "Student ID": entry.studentId || entry.student_profiles?.id_number || "-",
+      "Student ID": formatStudentId(entry.studentId || entry.student_profiles?.id_number || "-"),
       "Action": formatActivityAction(entry.action),
       "Timestamp": formatDateTimeFull(entry.timestamp),
     }));
@@ -178,9 +179,9 @@ const BorrowerTracking = () => {
             {pendingRequests.map((entry) => (
               <div className="table__row" key={entry.id}>
                 <span>{`${entry.student_profiles?.first_name || ""} ${entry.student_profiles?.last_name || ""}`.trim() || "-"}</span>
-                <span>{entry.student_profiles?.id_number || "-"}</span>
+                <span>{formatStudentId(entry.student_profiles?.id_number) || "-"}</span>
                 <span>{entry.student_profiles?.program || "-"}</span>
-                <span>{entry.item_title || "-"}</span>
+                <span title={entry.item_title || "-"}>{entry.item_title || "-"}</span>
                 <span>{entry.status || "-"}</span>
                 <span>{formatDateTimeFull(entry.requested_at)}</span>
                 <button
@@ -219,7 +220,7 @@ const BorrowerTracking = () => {
               <div className="table__row" key={entry.requestId}>
                 <span>{entry.user}</span>
                 <span>{entry.studentId}</span>
-                <span>{entry.book}</span>
+                <span title={entry.book || "-"}>{entry.book}</span>
                 <span>{formatDateTimeFull(entry.time)}</span>
                 <span>{entry.status}</span>
                 <button
@@ -274,8 +275,8 @@ const BorrowerTracking = () => {
             {filteredBorrowHistoryRows.map((entry) => (
               <div className="table__row" key={`${entry.id}-${entry.action}-${entry.timestamp}`}>
                 <span>{`${entry.student_profiles?.first_name || ""} ${entry.student_profiles?.last_name || ""}`.trim() || "-"}</span>
-                <span>{entry.studentId || entry.student_profiles?.id_number || "-"}</span>
-                <span>{entry.item_title || "-"}</span>
+                <span>{formatStudentId(entry.studentId || entry.student_profiles?.id_number) || "-"}</span>
+                <span title={entry.item_title || "-"}>{entry.item_title || "-"}</span>
                 <span>{formatActivityAction(entry.action)}</span>
                 <span>{formatDateTimeFull(entry.timestamp)}</span>
               </div>

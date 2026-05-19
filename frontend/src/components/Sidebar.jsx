@@ -8,6 +8,7 @@ import {
 	History,
 	LayoutDashboard,
 	Menu,
+	LogOut,
 	Search,
 	UserRound,
 	UserRoundPlus,
@@ -157,8 +158,17 @@ const Sidebar = () => {
 					))}
 				</div>
 				<div className="sidebar__footer">
-					<button type="button" className="btn btn--ghost sidebar__logout" onClick={handleLogout}>
-						Logout
+					<button
+						type="button"
+						className="btn btn--ghost sidebar__logout"
+						onClick={handleLogout}
+						aria-label="Logout"
+					>
+						{isCollapsed ? (
+							<LogOut size={16} className="sidebar__logout-icon" />
+						) : (
+							"Logout"
+						)}
 					</button>
 				</div>
 			</aside>

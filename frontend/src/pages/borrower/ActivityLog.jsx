@@ -272,7 +272,7 @@ const ActivityLog = () => {
                             </div>
                             {borrowUpdates.map((entry) => (
                                 <div className="table__row" key={entry.id}>
-                                    <span>{entry.item_title || "-"}</span>
+                                    <span title={entry.item_title || "-"}>{entry.item_title || "-"}</span>
                                     <span>{formatActivityAction(toBorrowActionLabel(entry.status))}</span>
                                     <span>{formatBorrowStatus(entry.status)}</span>
                                     <span>{formatDateTimeFull(entry.requested_at)}</span>
@@ -312,8 +312,8 @@ const ActivityLog = () => {
                                     <span>Time</span>
                                 </div>
                                 {filteredBorrowHistory.map((entry) => (
-                                        <div className="table__row" key={`${entry.id}-${entry.action}-${entry.timestamp}`}>
-                                        <span>{entry.title || entry.item_title || "-"}</span>
+                                    <div className="table__row" key={`${entry.id}-${entry.action}-${entry.timestamp}`}>
+                                    <span title={entry.title || entry.item_title || "-"}>{entry.title || entry.item_title || "-"}</span>
                                         <span>{formatActivityAction(entry.action)}</span>
                                         <span>{formatBorrowStatus(entry.status)}</span>
                                         <span>{formatDateTimeFull(entry.timestamp)}</span>

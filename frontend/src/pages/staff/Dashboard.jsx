@@ -4,6 +4,7 @@ import { useMemo, useState, useEffect } from "react";
 import { getReservationHistory } from "../../services/reservationService";
 import { formatDateTimeFull } from "../../utils/dateUtils";
 import { formatActivityAction } from "../../utils/activityUtils";
+import { formatStudentId } from "../../utils/name";
 import { useRequest } from "../../store/useRequestsStore";
 import { useStore } from "../../store/useAuthStore";
 
@@ -13,15 +14,6 @@ const Dashboard = () => {
   const { fetchHistory, itemRequests } = useRequest();
   const { borrowers, getStudentBorrowers } = useStore();
 
-  // Format student ID to display as "241-01231" format (3 digits-5 digits)
-  const formatStudentId = (id) => {
-    if (!id || id === "-") return "-";
-    const idStr = String(id).trim().replace(/\D/g, ''); // Remove non-digits
-    if (idStr.length >= 8) {
-      return `${idStr.substring(0, 3)}-${idStr.substring(3, 8)}`;
-    }
-    return idStr;
-  };
 
   useEffect(() => {
     const initialLoad = async () => {
@@ -236,12 +228,12 @@ const Dashboard = () => {
         <div className="card dashboard-summary-card">
           <p className="dashboard-summary-title">Book Activity</p>
           <ul className="dashboard-summary-list">
-            {bookActivityRows.length === 0 ? (
+              {bookActivityRows.length === 0 ? (
               <li>No confirmed borrow activity yet</li>
             ) : (
               bookActivityRows.map(([title, count]) => (
                 <li key={title} className="dashboard-summary-item">
-                  <span className="dashboard-summary-item-title">{title}</span>
+                  <span className="dashboard-summary-item-title" title={title}>{title}</span>
                   <span className="dashboard-summary-item-meta">Borrowed {count}</span>
                 </li>
               ))

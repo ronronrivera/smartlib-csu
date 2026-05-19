@@ -3,6 +3,7 @@ import { PenSquare, Eye, EyeOff } from "lucide-react";
 import { updateBorrowerAccountUser } from "../../services/authService";
 import { showError, showSuccess } from "../../utils/notification";
 import { useStore } from "../../store/useAuthStore";
+import { formatStudentId } from "../../utils/name";
 
 const sanitizeDigitsInput = (value) => String(value || "").replace(/\D/g, "");
 
@@ -178,9 +179,9 @@ const Account = () => {
                             /\d+/)?.[0] || "-"}</p>
                     </div>
                     <div className="form-field">
-            <span className="label">ID</span>
-            <p>{user?.profile?.id_number || "-"}</p>
-          </div>
+                      <span className="label">ID</span>
+                      <p>{formatStudentId(user?.profile?.id_number) || "-"}</p>
+                    </div>
           <div className="form-field">
             <span className="label">Address</span>
             <p>{profile?.address || "-"}</p>

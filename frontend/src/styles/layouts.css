@@ -242,6 +242,19 @@
   font-size: 0.72rem;
 }
 
+/* Icon styling for collapsed sidebar logout */
+.sidebar__logout-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar--collapsed .sidebar__logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .sidebar--collapsed .sidebar__link:hover {
   transform: none;
 }

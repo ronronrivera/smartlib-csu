@@ -111,6 +111,19 @@ const Login = () => {
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
         </div>
+        <div>
+          <span className="auth-forgot-text">Forgot password? Click </span>
+          <button
+            type="button"
+            className="auth-forgot-link"
+            onClick={() => {
+              if (!isLoading) navigate("/forgot-password");
+            }}
+            disabled={isLoading}
+          >
+            here
+          </button>
+        </div>
         {error ? <div className="alert">{error}</div> : null}
         <button 
           className={`btn ${isLoading? "bg-gray-500 cursor-not-allowed": "btn--primary"}`} 
@@ -126,13 +139,7 @@ const Login = () => {
         >
           Create an account
         </button>
-        <button
-          className="btn btn--ghost"
-          onClick={() => navigate("/forgot-password")}
-          disabled={isLoading}
-        >
-          Forgot password?
-        </button>
+
     </AuthCard>
     </div>
   );

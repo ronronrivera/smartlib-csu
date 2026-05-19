@@ -2,7 +2,7 @@
 // Parts: data loading, helper formatting, export handler, table render.
 import { useEffect, useMemo, useState } from "react";
 import { exportToCSV } from "../../services/exportService";
-import { formatBorrowerFullName } from "../../utils/name";
+import { formatBorrowerFullName, formatStudentId } from "../../utils/name";
 import { useStore } from "../../store/useAuthStore";
 import { Loader2Icon, Search } from "lucide-react";
 
@@ -27,7 +27,7 @@ const StaffAndBorrowerList = () => {
 		if (borrowers.length === 0) return;
 		// Export all borrower signup rows in one CSV file.
 		const borrowerData = borrowers.map((borrower) => ({
-			ID: borrower.id_number || "-",
+			ID: formatStudentId(borrower.id_number || "-"),
 			Name: formatBorrowerFullName(borrower),
 			Email: borrower.email || "-",
 			Phone: borrower.contact_number || "-",
@@ -144,7 +144,7 @@ const StaffAndBorrowerList = () => {
 										{formatBorrowerFullName(borrower)}
 									</td>
 									<td data-label="Student ID" title={borrower.id || "-"}>
-										{truncateText(borrower.id_number, 24)}
+										{truncateText(formatStudentId(borrower.id_number), 24)}
 									</td>
 									<td
 										data-label="Course - Year Level"
@@ -155,8 +155,11 @@ const StaffAndBorrowerList = () => {
 									<td data-label="Email" title={borrower.email || "-"}>
 										{borrower.email || "-"}
 									</td>
-									<td data-label="Address" title={borrower.currentAddress || "-"}>
-										{borrower.address || "-"}
+									<td
+										data-label="Address"
+										title={borrower.address || borrower.currentAddress || "-"}
+									>
+										{truncateText(borrower.address || borrower.currentAddress, 8) || "-"}
 									</td>
 									<td data-label="Action">
 										<button
@@ -185,7 +188,7 @@ const StaffAndBorrowerList = () => {
 							<strong>Course - Year Level:</strong> {selectedBorrower.program || "-"}
 						</p>
 						<p>
-							<strong>Student ID:</strong> {selectedBorrower.id_number || "-"}
+							<strong>Student ID:</strong> {formatStudentId(selectedBorrower.id_number) || "-"}
 						</p>
 						<p>
 							<strong>Email:</strong> {selectedBorrower.email || "-"}
