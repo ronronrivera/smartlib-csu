@@ -190,7 +190,7 @@ const BrowseBooks = () => {
     }, [books, borrowHistory]);
 
     const submitBorrow = async (id, handlers = {}) => {
-        const { onError } = handlers;
+        const { onError, onSuccess } = handlers;
 
         if (!user?.user?.email) return;
         if (isProcessing(id)) return;
@@ -210,6 +210,7 @@ const BrowseBooks = () => {
             // Give time for success message to show before refresh
             await new Promise(resolve => setTimeout(resolve, 500));
             await refresh();
+            if (onSuccess) onSuccess();
         } catch (err) {
             console.error(err);
             const errorMsg = err?.response?.data?.message || err?.message || "Unable to borrow book.";

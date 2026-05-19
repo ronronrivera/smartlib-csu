@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PenSquare, Eye, EyeOff } from "lucide-react";
 import { updateBorrowerAccountUser } from "../../services/authService";
 import { showError, showSuccess } from "../../utils/notification";
@@ -47,6 +47,19 @@ const Account = () => {
     setNewPassword("");
     setConfirmNewPassword("");
   };
+
+  useEffect(() => {
+    if (!activeModal) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [activeModal]);
 
   const handleUpdateEmail = async () => {
     // Uses auth service update path, which also migrates linked borrower references.

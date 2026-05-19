@@ -211,6 +211,17 @@ const Reservation = () => {
     setSelectedReason(null);
   };
 
+  useEffect(() => {
+    if (!selectedReason) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") closeReasonModal();
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [selectedReason]);
+
   const getReservationReason = (reservation) => {
     const reasonValue = reservation?.notes ?? reservation?.reason ?? "";
     const normalizedReason = String(reasonValue).trim();

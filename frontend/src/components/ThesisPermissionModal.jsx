@@ -1,5 +1,6 @@
 // Purpose: Modal form for thesis permission-code input and submission.
 // Parts: field props, validation/error display, submit/cancel controls.
+import { useEffect } from "react";
 const ThesisPermissionModal = ({
   isOpen,
   code,
@@ -8,6 +9,19 @@ const ThesisPermissionModal = ({
   onCancel,
   onSubmit
 }) => {
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        onCancel();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onCancel]);
+
   // Render nothing when the thesis application flow is inactive.
   if (!isOpen) return null;
 

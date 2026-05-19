@@ -1,5 +1,6 @@
 // Purpose: Modal view that shows full details of a selected book.
 // Parts: open/close guard, details content, modal actions.
+import { useEffect } from "react";
 const normalizeKeywords = (keywords) => {
   if (Array.isArray(keywords)) {
     return keywords
@@ -18,6 +19,19 @@ const normalizeKeywords = (keywords) => {
 };
 
 const BookDetailsModal = ({ isOpen, book, onClose }) => {
+  useEffect(() => {
+    if (!isOpen || !book) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [book, isOpen, onClose]);
+
   // Prevent rendering when modal is closed or no selected book exists.
   if (!isOpen || !book) return null;
 

@@ -44,6 +44,17 @@ const StaffAndBorrowerList = () => {
 		setSelectedBorrower(null);
 	};
 
+	useEffect(() => {
+		if (!selectedBorrower) return undefined;
+
+		const handleKeyDown = (event) => {
+			if (event.key === "Escape") closeBorrowerDetails();
+		};
+
+		document.addEventListener("keydown", handleKeyDown);
+		return () => document.removeEventListener("keydown", handleKeyDown);
+	}, [selectedBorrower]);
+
 	//  Ensure borrowers is always an array to avoid length/map crashes
 	const safeBorrowers = useMemo(
 		() => (Array.isArray(borrowers) ? borrowers : []),

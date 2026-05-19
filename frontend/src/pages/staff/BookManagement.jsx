@@ -113,6 +113,22 @@ const BookManagement = () => {
         setSelectedCategory((current) => (current === category ? null : category));
     };
 
+    useEffect(() => {
+        if (!selectedBook && !isAddModalOpen && !bookToDelete) return undefined;
+
+        const handleKeyDown = (event) => {
+            if (event.key !== "Escape") return;
+
+            setSelectedBook(null);
+            setIsAddModalOpen(false);
+            setBookToDelete(null);
+            setForm(INITIAL_FORM);
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+        return () => document.removeEventListener("keydown", handleKeyDown);
+    }, [bookToDelete, isAddModalOpen, selectedBook]);
+
     const handleDelete = (book) => setBookToDelete(book);
 
     const handleConfirmDelete = async () => {
